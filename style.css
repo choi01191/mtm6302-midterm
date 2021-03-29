@@ -1,0 +1,26 @@
+.hidden {
+    display: none
+}
+
+h1 {
+    border-bottom: 1px lightgray solid;
+    padding-bottom: 10px;
+}
+
+#storybox {
+    display: flex;
+    flex-direction: column;
+
+}
+
+button,
+input {
+    margin: 10px 0;
+    padding: 10px;
+    font-size: 18px;
+}
+
+button:hover {
+    background-color: lightpink;
+    cursor: grab;
+}
