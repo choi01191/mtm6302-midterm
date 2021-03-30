@@ -2,70 +2,100 @@
 const $storybox = document.getElementById('storybox')
 const $main = document.querySelector('main')
 const $newHeading = document.querySelector('h2');
-
-//get stroy first
+const $buttons =[]
+const $form = document.createElement('form');
+const $finalbox = document.createElement('aside')
+//get stroy frist
 document.body.onload = loadPage;
 function loadPage (){
     $newHeading.textContent ='Choose a story'
+ for(const title of stories){
 
-    for(const title of stories){
-$storybox.innerHTML =`<button class="button">${title['title']}</button>`+$storybox.innerHTML
+$buttons.push(`<button data-story="${title['title']}"class="button">${title['title']}</button>`)
 
+// const list =`${$buttons.join(' ')}`
+$storybox.innerHTML =`<button data-story="${title['title']}"class="button">${title['title']}</button>`+$storybox.innerHTML
 } 
 
-// $storybox.insertAdjacentElement("beforebegin",$newHeading)
-}
-const individualButton = $storybox.children;
-document.individualButton[0].addEventListener('click',function(){ 
-    $newHeading.textContent ='Provide the following words';
-    for(let i =0; i<= 5;  i++){   
-    // for(const word of stories){
 
-    let word = stories[0].words[i]
+//event bubbling 
 
-    let input = `<input type="text" name="${word}" placeholder="${word}">`
-    $storybox.innerHTML = $storybox.innerHTML + input;
-    const $ready = `<span id ="ready>Ready Story</span>`
-    $storybox.innerHTML= $ready
-
-}})
-// const $buttons = document.querySelectorAll('button');
-function loadWords (){
-    $newHeading.textContent ='Provide the following words';
-    {for(let i =0; i< 4;  i++){   
-// for(const word of stories){
+$storybox.addEventListener('click',function(e){ 
+   $storybox.classList.add('hidden')
   
-    let word = stories[1].words[i]
-  
-    let input = `<input type="text" name="${word}" placeholder="${word}">`
-    $storybox.innerHTML = $storybox.innerHTML + input
+    $main.insertAdjacentElement("beforeend",$form);
+    const $inputSumit = `<span onclick ="return submitwords()">Ready Story </span>`
+    $form.insertAdjacentHTML("beforeend",$inputSumit)
+$newHeading.textContent ='Provide the following words';
+    if(e.target.includes ="Mission Statement") {
+        for(let i =0; i<= 5; i++){   
+        let word = stories[0].words[i]
+        let input = `<input type="text" name="${word}" placeholder="${word}">`
+        $form.innerHTML = $form.innerHTML + input;
+        
     
-}}
+       
+    }
+    }
+    else if(e.target.includes ="Lunch"){
+
+        for(let i =0; i<= 6;  i++){   
+            let word = stories[1].words[i]
+            let input = `<input type="text" name="${word}" placeholder="${word}">`
+            $form.innerHTML = $form.innerHTML + input;
+        // const $ready = `<span id ="ready>Ready Story</span>`
+
+    }}
+    else{console.log('error')
+
 
 }
-// for (let button of $buttons) {
-//     button.addEventListener("click", loadWords, false);    
+
+})
+
+}
+function submitwords(){
+    $form.classList.add('hidden')
+    
+    $newHeading.textContent ='Mission Statement'
+    $main.insertAdjacentElement("beforeend",$finalbox);
+const story = stories[0]
+console.log()
+// words 발류값에 key value 를 저장
+const words = {
+  'Adjective': '',
+  'Verb 1': '',
+  'Verb 2': '',
+  'Plural Noun 1': '',
+  'Plural Noun 2': '',
+  'Plural Noun 3': ''
+}
+
+story.output(words)
+$finalbox.innerHTML = story.output(words)
+
+
+const createNew = `<input type="submit" value="Create another Story ">`;
+
+
+
+$finalbox.insertAdjacentHTML('beforeend',createNew) 
+
+
+$finalbox.addEventListener('click', function (){
+    location.reload()
+})
+
+}
+
+// var argument1 = {
+//     myvar : "12",
+//     mymethod : function(test) { return something; }
 // }
-loadWords ()
-// $buttons.addEventListener('click', function(e){
 
 
-// })
-//when click the one of the story it show selected stor's form
-// document.querySelectorAll(button)
+// argument1.mymethod(parameter);
 
-
-
-    
-
-// $storybox.addEventListener('click',function cilck(){
-
-     
-
- 
-// // 
-
-// } )
 
 
 
