@@ -1,91 +1,85 @@
 /*get the title*/
-const $storybox = document.getElementById('storybox')
-const $main = document.querySelector('main')
-const $newHeading = document.querySelector('h2');
-const $buttons =[]
-const $form = document.createElement('form');
-const $finalbox = document.createElement('aside')
+const $storybox = document.getElementById("storybox");
+const $main = document.querySelector("main");
+const $newHeading = document.querySelector("h2");
+const $buttons = [];
+const $form = document.createElement("form");
+const $finalbox = document.createElement("aside");
+
+const renderFormInputs = ($form, story) => {
+  const words = story.words;
+
+  const inputElems = words.map(
+    (word) =>
+      `<input type="text" name="${word}" placeholder="${word}">`
+  );
+
+  const inputElem = inputElems.join("");
+
+  $form.innerHTML = $form.innerHTML + inputElem;
+};
+
 //get stroy frist
 document.body.onload = loadPage;
-function loadPage (){
-    $newHeading.textContent ='Choose a story'
- for(const title of stories){
+function loadPage() {
+  $newHeading.textContent = "Choose a story";
+  for (const title of stories) {
+    $buttons.push(
+      `<button data-story="${title["title"]}"class="button">${title["title"]}</button>`
+    );
 
-$buttons.push(`<button data-story="${title['title']}"class="button">${title['title']}</button>`)
+    // const list =`${$buttons.join(' ')}`
+    $storybox.innerHTML =
+      `<button data-story="${title["title"]}"class="button">${title["title"]}</button>` +
+      $storybox.innerHTML;
+  }
 
-// const list =`${$buttons.join(' ')}`
-$storybox.innerHTML =`<button data-story="${title['title']}"class="button">${title['title']}</button>`+$storybox.innerHTML
-} 
+  //event bubbling
 
+  $storybox.addEventListener("click", function (e) {
+    const storyName = e.target.dataset.story;
+    $storybox.classList.add("hidden");
 
-//event bubbling 
+    $main.insertAdjacentElement("beforeend", $form);
+    const $inputSumit = `<span onclick ="return submitwords()">Ready Story </span>`;
+    $form.insertAdjacentHTML("beforeend", $inputSumit);
+    $newHeading.textContent = "Provide the following words";
 
-$storybox.addEventListener('click',function(e){ 
-   $storybox.classList.add('hidden')
-  
-    $main.insertAdjacentElement("beforeend",$form);
-    const $inputSumit = `<span onclick ="return submitwords()">Ready Story </span>`
-    $form.insertAdjacentHTML("beforeend",$inputSumit)
-$newHeading.textContent ='Provide the following words';
-    if(e.target.includes ="Mission Statement") {
-        for(let i =0; i<= 5; i++){   
-        let word = stories[0].words[i]
-        let input = `<input type="text" name="${word}" placeholder="${word}">`
-        $form.innerHTML = $form.innerHTML + input;
-        
-    
-       
-    }
-    }
-    else if(e.target.includes ="Lunch"){
-
-        for(let i =0; i<= 6;  i++){   
-            let word = stories[1].words[i]
-            let input = `<input type="text" name="${word}" placeholder="${word}">`
-            $form.innerHTML = $form.innerHTML + input;
-        // const $ready = `<span id ="ready>Ready Story</span>`
-
-    }}
-    else{console.log('error')
-
-
+    const story = stories.find(
+      (story) => story.title === storyName
+    );
+    console.log("story", story);
+    renderFormInputs($form, story);
+  });
 }
 
-})
+function submitwords() {
+  $form.classList.add("hidden");
 
-}
-function submitwords(){
-    $form.classList.add('hidden')
-    
-    $newHeading.textContent ='Mission Statement'
-    $main.insertAdjacentElement("beforeend",$finalbox);
-const story = stories[0]
-console.log()
-// words 발류값에 key value 를 저장
-const words = {
-  'Adjective': '',
-  'Verb 1': '',
-  'Verb 2': '',
-  'Plural Noun 1': '',
-  'Plural Noun 2': '',
-  'Plural Noun 3': ''
-}
+  $newHeading.textContent = "Mission Statement";
+  $main.insertAdjacentElement("beforeend", $finalbox);
+  const story = stories[0];
+  console.log();
+  // words 발류값에 key value 를 저장
+  const words = {
+    Adjective: "",
+    "Verb 1": "",
+    "Verb 2": "",
+    "Plural Noun 1": "",
+    "Plural Noun 2": "",
+    "Plural Noun 3": "",
+  };
 
-story.output(words)
-$finalbox.innerHTML = story.output(words)
+  story.output(words);
+  $finalbox.innerHTML = story.output(words);
 
+  const createNew = `<input type="submit" value="Create another Story ">`;
 
-const createNew = `<input type="submit" value="Create another Story ">`;
+  $finalbox.insertAdjacentHTML("beforeend", createNew);
 
-
-
-$finalbox.insertAdjacentHTML('beforeend',createNew) 
-
-
-$finalbox.addEventListener('click', function (){
-    location.reload()
-})
-
+  $finalbox.addEventListener("click", function () {
+    location.reload();
+  });
 }
 
 // var argument1 = {
@@ -93,9 +87,4 @@ $finalbox.addEventListener('click', function (){
 //     mymethod : function(test) { return something; }
 // }
 
-
 // argument1.mymethod(parameter);
-
-
-
-
